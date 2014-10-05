@@ -13,7 +13,7 @@ coreos:
         # generate a new token for each unique cluster from https://discovery.etcd.io/new
         # WARNING: replace each time you 'vagrant destroy'
         #discovery: https://discovery.etcd.io/<token>
-        peers: "172.17.8.101:4001,172.17.8.102:4001,172.17.8.103:4001"
+        peers: "172.17.8.101:4001"
     units:
         - name: etcd.service
           command: start
