@@ -2,8 +2,8 @@ resource "aws_instance" "NAME" {
     depends_on = [ "DEPENDS_ON" ]
     ami = "${lookup(var.amis, var.aws_region)}"
     instance_type = "${var.aws_instance_type}"
-    key_name = "${var.aws_ec2_keypair}"
-    security_groups = [ "${var.security_groups}" ]
+    key_name = "${var.aws_ec2_keypairs.etcd}"
+    security_groups = [ "${var.security_groups.etcd}" ]
     # associate_public_ip_address = true: 
     # Error launching source instance: Network interfaces and an instance-level private IP address may not be specified on the same 
     # request (InvalidParameterCombination). Workaround: turn on associate_public_ip_address for each subnet

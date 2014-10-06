@@ -1,7 +1,7 @@
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "security_groups" {}
-variable "aws_ec2_keypair" {}
+variable "aws_ec2_keypairs" {}
 
 #variable "instance_aws_access_key" {}
 #variable "instance_aws_secret_key" {}
@@ -36,17 +36,34 @@ variable "amis" {
 
 variable "subnet" {
     default = {
-    us-west-2a = "subnet-153de770"
-    us-west-2b = "subnet-102cd467"
-    us-west-2c = "subnet-830d15c5"
+      us-west-2a = "subnet-153de770"
+      us-west-2b = "subnet-102cd467"
+      us-west-2c = "subnet-830d15c5"
     } 
 }
 
 variable "private_ip" {
     default = {
-    us-west-2a = "10.42.2.50"
-    us-west-2b = "10.42.2.100"
-    us-west-2c = "10.42.2.150"
+      us-west-2a = "10.42.2.50"
+      us-west-2b = "10.42.2.100"
+      us-west-2c = "10.42.2.150"
     }
 }
+
+variable "aws_ec2_keypairs" {
+    default = {
+      etcd = "etcd"
+      registry = "registry"
+      hosting = "hosting"
+    }
+}
+
+variable "security_groups" {
+    default = {
+      etcd = "sg-01fe6164"
+      registry = "sg-01fe6164"
+      hosting = "sg-07fe6162"
+    }
+}
+
 #variable "aws_route53_zone_id_itlab" {}
