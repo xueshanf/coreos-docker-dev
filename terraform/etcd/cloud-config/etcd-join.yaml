@@ -9,7 +9,7 @@ coreos:
     - name: etcd.service
       command: start
     - name: fleet.service
-      command: stop
+      mask: true
 write_files:
   - path: /home/core/.ssh/config
     permissions: 0600
