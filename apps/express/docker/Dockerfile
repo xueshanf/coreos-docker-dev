@@ -10,5 +10,5 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 VOLUME /demo
 
-EXPOSE 3000
+EXPOSE 8000
 CMD    ["/demo/bin/www"]

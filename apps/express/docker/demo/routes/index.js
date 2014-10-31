@@ -4,11 +4,11 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { 
-	  	title: 'NodeJS Demo',
-		hello: process.env.HELLO,
-	    host: process.env.HOST,
-	    hostname: process.env.HOSTNAME,
-	    container: process.env.CONTAINER
+	  	title: 'Fleet Controlled Dockers Demo',
+		hello: "Pacific",
+	    container: process.env.HOSTNAME,
+	    hostip: process.env.COREOS_PUBLIC_IPV4,
+        instance: process.env.INSTANCE_ID
 	});
 });
 
