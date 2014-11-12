@@ -1,36 +1,25 @@
 #cloud-config
-
-#
-# cloud-init configration for files
-#
-
+coreos:
+  etcd:
+    addr: $private_ipv4:4001
+    peer-addr: $private_ipv4:7001
+    cluster-active-size: 3
+  units:
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      mask: true
 write_files:
-  - path: /var/lib/skydns/envvars
-    permissions: 0644
-    owner: root
+  - path: /home/core/.ssh/config
+    permissions: 0600
+    owner: core
     content: |
-        LOCAL_DOMAIN=docker.local
-        LOCAL_DOMAIN_PATH=/skydns/local/docker
-        SKYDNS_CONFIG='{"domain":"docker.local", "dns_addr":"0.0.0.0:53", "ttl":3600, "nameservers": ["8.8.8.8:53","8.8.4.4:53"]}'
-        SKYDNS_CMD_REPO=https://github.com/xuwang/skydns-docker/releases/download/skydns-7025dba3834f/skydns
-  - path: /etc/resolv.conf.skydns
-    permissions: 0644
-    owner: root
-    content: |
-        domain docker.local
-        search docker.local
-        nameserver 127.0.0.1
-  - path: /etc//etc/sysctl.d/overcommit_memory.conf
-    permissions: 0644
-    owner: root
-    content: |
-        # see http://www.redhat.com/magazine/001nov04/features/vm/
-        # may be needed for memory based datastore, e.g. redis
-        vm.overcommit_memory = 1
-  - path: /etc/profile.d/path.sh
-    content: |
-        export PATH=$PATH:/var/lib/apps/bin
+        Host 10.* *.us-west-2.compute.internal
+        StrictHostKeyChecking no
+        ForwardAgent yes
   - path: /etc/profile.d/alias.sh
+    permissions: 0644
+    owner: root
     content: |
         alias lal="ls -al"
         alias ll="ls -l"
@@ -66,7 +55,5 @@ write_files:
         function dkid() { docker inspect --format "{{ .ID }}" $1 ; }
         function dkim() { docker inspect --format "{{ .Image }}" $1 ; }
         function dkst() { docker inspect --format "{{ .State.Running }}" $1 ; }
-        function sdrit() { sudo docker start-i -t $1 bash ; }
+        function sdrit() { sudo docker run -i -t $1 bash ; }
         function nsa { sudo nsenter -p -u -m -i -n -t $(docker inspect -f "{{ .State.Pid }}" $1) ; }
-# end of cloud-config files
-        
