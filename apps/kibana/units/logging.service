@@ -1,0 +1,12 @@
+[Unit]
+Description=Push Journals to Logstash
+
+[Service]
+User=core
+#ExecStart=/bin/bash -c "journalctl -o json -f | ncat --ssl core@logstash.docker.local 443"
+ExecStart=/bin/bash -c "journalctl -o json -f | ncat logstash.docker.local 5000"
+RestartSec=5
+Restart=always
+
+[X-Fleet]
+#Global=true

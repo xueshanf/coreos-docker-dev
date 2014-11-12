@@ -1,22 +1,22 @@
 [Unit]
 Description=skydns
 Requires=skydns-install.service
-Requires=etcd.service
 After=skydns-install.service
-After=etcd.service
+Requires=systemd-resolved.service
+After=systemd-resolved.service
 
 [Service]  
 Type=simple
 Restart=always
 RestartSec=5
 EnvironmentFile=/etc/environment
-EnvironmentFile=/var/lib/apps/skydns/envvars
-ExecStartPre=/usr/bin/etcdctl set "${DNS_NAMESERVER_PATH}/%m" "${COREOS_PRIVATE_IPV4}"
-# Set skydns configuration in etcd
-ExecStartPre=/usr/bin/etcdctl set /skydns/config "${SKYDNS_CONFIG}"
-ExecStart=/bin/sh -c ${SKYDNS_CMD}
-ExecStopPost=-/usr/bin/etcdctl rm /skydns/config
-ExecStartPre=/usr/bin/etcdctl rm "${DNS_NAMESERVER_PATH}/%m"
-
-[X-Fleet]
-Global=true
+EnvironmentFile=/var/lib/skydns/envvars
+# make sure the skydns confit is set in etcd:
+ExecStartPre=/bin/bash -c "etcdctl get /skydns/config"
+ExecStart=/opt/bin/skydns
+# with etcd, skydns may not neet to sync with each other anymore:
+ExecStartPost=-/var/lib/apps/bin/dns-set x%m.ns.dns ${COREOS_PRIVATE_IPV4}
+ExecStopPost=-/var/lib/apps/bin/dns-delete x%m.ns.dns
+# set the system resolver to use local skydns
+ExecStartPost=/bin/bash -c "ln -sf /etc/resolv.conf.skydns /etc/resolv.conf"
+ExecStopPost=/bin/bash -c "ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf"

@@ -1,0 +1,5 @@
+# env for redis.service
+
+IMAGE='dockerfile/redis:latest'
+
+OPTS='-v /var/lib/apps-data/redis:/data -p 6379:6379'
