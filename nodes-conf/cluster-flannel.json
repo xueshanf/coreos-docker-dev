@@ -1,8 +1,8 @@
 {
     "nodes": {
-        "kube-1": {
-            "description":      "This is Master on 10.120.0.1",
-            "cloud_init":       ["00-etcd.yaml","01-fleet.yaml","02-docker.yaml","03-skydns.yaml","04-registry.yaml","10-files.yaml"],
+        "n1": {
+            "description":      "This is 1st node",
+            "cloud_init":       ["leader-flannel.yaml", "files.yaml"],
             "domain":           "docker.local",
             "ip":               "172.17.8.101",
             "subnet":           "172.17.8",
@@ -16,9 +16,9 @@
                                 {"guest": 8888, "host": 8888,	"id": "app"     }
                                 ]
         },
-        "kube-2": {
-            "description":      "This is Minion 1 on 10.120.0.2",
-            "cloud_init":       ["00-etcd.yaml","01-fleet.yaml","02-docker.yaml","03-skydns.yaml","10-files.yaml"],
+        "n2": {
+            "description":      "This is 2ed node",
+            "cloud_init":       ["follower-flannel.yaml", "files.yaml"],
             "domain":           "docker.local",
             "ip":               "172.17.8.102",
             "subnet":           "172.17.8",
@@ -27,9 +27,9 @@
                                 {"guest": 22,   "host": 2202,   "id": "ssh"     }
                                 ]
         },
-        "kube-3": {
-            "description":      "This is Minion 2 on 10.120.0.3",
-            "cloud_init":       ["00-etcd.yaml","01-fleet.yaml","02-docker.yaml","03-skydns.yaml","10-files.yaml"],
+        "n3": {
+            "description":      "This is 3rd node",
+            "cloud_init":       ["follower-flannel.yaml", "files.yaml"],
             "domain":           "docker.local",
             "ip":               "172.17.8.103",
             "subnet":           "172.17.8",

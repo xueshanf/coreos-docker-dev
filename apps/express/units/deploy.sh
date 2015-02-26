@@ -18,7 +18,7 @@ function forcereload {
 function reload {
     echo stop $unit
     fleetctl stop $unit
-    until fleetctl list-units | grep $unit | grep -q failed; do sleep $sleep; done
+    until fleetctl list-units | grep $unit| grep -q failed; do sleep $sleep; done
     echo start $unit
     fleetctl start $unit
 }
@@ -41,7 +41,7 @@ then
         unit=$sitename\@$i.service
         cd $sitedir
         reload 
-        until fleetctl list-machines | grep $unit | grep -q active; do sleep $sleep; done
+        until fleetctl list-units | grep $unit| grep -q active; do sleep $sleep; done
     done
 else
     echo "$sitedir/$sitename\@.service doesn't exist."
