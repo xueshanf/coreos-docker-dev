@@ -1,10 +1,10 @@
 ## Running HAproxy on CoreOS cluster with confd (etcd backend)
 
 * [Dockerfile](https://github.com/xuwang/coreos-docker-dev/tree/master/apps/haproxy-supervisor/docker)
-* Confd is used to manage upstream server changes
-* Haproxy runs under supervisor. Confd reload haproxy using supervisorctl restart haproxy
+* Confd manages upstream service and server changes
+* Haproxy runs under supervisor. Confd reloads haproxy using _supervisorctl restart haproxy_
 * The restart utilizes itpable to minimize downtime [True Zero Downtime HAProxy Reloads](http://engineeringblog.yelp.com/2015/04/true-zero-downtime-haproxy-reloads.html)
-* Run in Vagrant environment so you can try it out.
+* Run in Vagrant CoreOS cluster, should work in any etcd/systemd managed systems, with docker support.
   
 ## Quick start 
 
